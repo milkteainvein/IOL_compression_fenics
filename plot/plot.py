@@ -9,6 +9,7 @@ mpl.rcParams['axes.linewidth'] = 2
 def plot_data(x_coordinates, y_coordinates):
   # set the different markers we want to use for the data points.
   markers = ['o', 's', '^', '*', 'X', 'D', 'p']
+  names = ["Clinical data", 1, 2, 3, 4, 5, 6]
 
   # plot each line
   for i in range(len(y_coordinates)):
@@ -19,6 +20,7 @@ def plot_data(x_coordinates, y_coordinates):
   plt.xlabel("Contraction rate (%)")
   plt.ylabel("IOL decentration (mm)")
   plt.grid()
+  plt.legend(names)
   plt.savefig("plot.png")
   plt.close()
 
