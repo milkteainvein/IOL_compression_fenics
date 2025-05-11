@@ -1,6 +1,14 @@
 import gmsh
 import meshio
 import vedo
+import dolfinx
+from dolfinx import fem # there are some version differences....
+
+import basix
+import ffcx
+import ufl
+from ufl import VectorElement
+
 
 def gmsh_converter(path_name, output_file):
   gmsh.initialize()
@@ -30,9 +38,9 @@ def optimize_mesh(input_file, output_file):
   gmsh.open(input_file)
 
   # Apply mesh optimization
-  gmsh.option.setNumber("Mesh.Optimize", 1)
-  gmsh.option.setNumber("Mesh.OptimizeNetgen", 1)  # Better smoothing
-  gmsh.model.mesh.optimize("Netgen")  # Runs Netgen's optimization
+  gmsh.option.setNumber("Mesh.Optimize", 0)
+  gmsh.option.setNumber("Mesh.OptimizeNetgen", 0)  # Better smoothing
+  #gmsh.model.mesh.optimize("Netgen")  # Runs Netgen's optimization
 
   # Save the optimized mesh
   gmsh.write(output_file)
@@ -74,7 +82,7 @@ def inspect_file(output_file):
 def main():
   path_name = "object_files/IOL.STEP"
   mesh_file = "model.msh"
-  refinement_steps = 4
+  refinement_steps = 2
 
   gmsh_converter(path_name, mesh_file)
   optimize_mesh(mesh_file, mesh_file)
@@ -86,6 +94,10 @@ if __name__ == "__main__":
    main()
 
 
+#define vector function space 
+# 定义向量元素（三维，P1）
+element = VectorElement("Lagrange", mesh.ufl_cell(), degree=1)
 
-
+# 创建函数空间
+V = fem.FunctionSpace(mesh, element)
 
