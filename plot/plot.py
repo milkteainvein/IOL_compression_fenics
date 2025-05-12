@@ -26,13 +26,13 @@ def plot_data(x_coordinates, y_coordinates):
 
 
 # import the data
-with open("data.csv", "r") as file:
+with open("y_values.csv", "r", encoding="utf-8-sig") as file:
   reader = csv.reader(file)
   data = list(reader)
 data = np.array(data, dtype=float)
 
 # take out the x_coordinates and the y_coordinates
-x_coordinates = 100 * data[:, :1]
+x_coordinates = data[:, :1]
 y_coordinates = np.array([data[:,n] for n in range(1, len(data[1, :]))])
 
 
